@@ -10,15 +10,30 @@ describe('Job API tests', () => {
       .get('/jobs/unpaid')
       .set('profile_id', '7');
 
-    const expectedUnpaidJob = {
-      description: 'work',
+    const expectedUnpaidJob1 = {
+      id: 4,
+      description: "work",
       price: 200,
-      paid: false,
-      ContractId: 4,
+      paid: null,
+      paymentDate: null,
+      createdAt: "2023-04-26T11:31:27.928Z",
+      updatedAt: "2023-04-26T11:31:27.928Z",
+      ContractId: 4
+    };
+
+    const expectedUnpaidJob2 = {
+      id: 5,
+      description: "work",
+      price: 200,
+      paid: null,
+      paymentDate: null,
+      createdAt: "2023-04-26T11:31:27.928Z",
+      updatedAt: "2023-04-26T11:31:27.928Z",
+      ContractId: 7
     };
 
     expect(response.status).to.equal(200);
     expect(response.body.success).to.equal(true);
-    expect(response.body.data).to.deep.equal([expectedUnpaidJob]);
+    expect(response.body.data).to.deep.equal([expectedUnpaidJob1, expectedUnpaidJob2]);
   });
 });
