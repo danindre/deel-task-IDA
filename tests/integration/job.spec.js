@@ -47,8 +47,6 @@ describe('Job API tests', () => {
       ContractId: 3
     };
 
-    console.log(response.body)
-
     expect(response.status).to.equal(200);
     expect(response.body.success).to.equal(true);
     expect(response.body.data).to.deep.include(paidJob);
