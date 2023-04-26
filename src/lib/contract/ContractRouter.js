@@ -25,8 +25,31 @@ router.get('/:id', getProfile, async (req, res) => {
     })
   } catch (e) {
     console.error(e);
-    res.status(500).end(e)
+    return res.status(500).json({
+      success: false,
+      message: 'Internal Server Error',
+      data: null
+    })
   }
 });
+
+router.get('/', getProfile, async (req, res) => {
+  try {
+    const contacts = await contractController.getContracts(req.app.get('models'), req.profile);
+
+    res.json({
+      success: true,
+      message: '',
+      data: contacts
+    });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal Server Error',
+      data: null
+    })
+  }
+})
 
 module.exports = router;

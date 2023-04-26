@@ -11,7 +11,28 @@ class ContractController {
         ],
       }
     })
+  }
 
+  async getContracts({Contract}, profile) {
+    if (profile.type === 'client') {
+      return await Contract.findAll({
+        where: {
+          ClientId: profile.id,
+          status: {
+            [Op.not]: 'terminated'
+          }
+        }
+      })
+    }
+
+    return await Contract.findAll({
+      where: {
+        ContractorId: profile.id,
+        status: {
+          [Op.not]: 'terminated'
+        }
+      }
+    })
   }
 }
 
