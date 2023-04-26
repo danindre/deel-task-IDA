@@ -4,12 +4,16 @@
   "private": true,
   "dependencies": {
     "body-parser": "^1.19.0",
+    "chai": "^4.3.7",
     "express": "4.17.1",
+    "mocha": "^10.2.0",
     "sequelize": "^6.3.4",
-    "sqlite3": "^4.0.1"
+    "sqlite3": "^4.0.1",
+    "supertest": "^6.3.3"
   },
   "scripts": {
     "start": "nodemon ./src/server.js",
+    "test": "mocha '**/*.spec.js'",
     "seed": "node ./scripts/seedDb.js"
   },
   "devDependencies": {

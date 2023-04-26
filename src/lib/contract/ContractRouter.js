@@ -9,8 +9,20 @@ const contractController = new ContractController();
 router.get('/:id', getProfile, async (req, res) => {
   try {
     const contract = await contractController.getContractById(req.app.get('models'), req.params, req.profile)
-    if (!contract) return res.status(404).end()
-    res.json(contract)
+    if (!contract) {
+      return res.status(404).json({
+          success: false,
+          message: 'contact.not_found',
+          data: null
+        }
+      )
+    }
+
+    res.json({
+      success: true,
+      message: '',
+      data: contract
+    })
   } catch (e) {
     console.error(e);
     res.status(500).end(e)
