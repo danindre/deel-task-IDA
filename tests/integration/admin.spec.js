@@ -12,8 +12,8 @@ describe('Contract API tests', () => {
     expect(response.status).to.equal(200);
     expect(response.body.success).to.equal(true);
     expect(response.body.data).to.deep.equal({
-      totalPaid: 2020,
-      bestProfession: "Pokemon master"
+      totalPaid: 2683,
+      bestProfession: "Programmer"
     });
 
   })

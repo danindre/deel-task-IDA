@@ -31,7 +31,7 @@ class AdminController {
           include: [
             {
               model: Profile,
-              as: 'Client',
+              as: 'Contractor',
               attributes: ["profession"]
             }
           ]
@@ -44,7 +44,7 @@ class AdminController {
 
     return {
       totalPaid: mostPaidProfession.dataValues.totalAmount,
-      bestProfession: mostPaidProfession.dataValues.Contract.Client.profession,
+      bestProfession: mostPaidProfession.dataValues.Contract.Contractor.profession,
     };
   }
 }
