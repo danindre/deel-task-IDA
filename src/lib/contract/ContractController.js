@@ -1,6 +1,17 @@
+const {Op} = require("sequelize");
+
 class ContractController {
-  constructor(models) {
-    this.modes = models;
+  async getContractById({Contract}, {id}, profile) {
+    return await Contract.findOne({
+      where: {
+        id,
+        [Op.or]: [
+          {ContractorId: profile.id},
+          {ClientId: profile.id},
+        ],
+      }
+    })
+
   }
 }
 
