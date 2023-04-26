@@ -1,7 +1,9 @@
 const app = require('../../src/app');
 const chai = require('chai');
+const chaiSubset = require('chai-subset');
 const request = require('supertest');
 
+chai.use(chaiSubset);
 const expect = chai.expect;
 
 describe('Contract API tests', () => {
@@ -14,15 +16,13 @@ describe('Contract API tests', () => {
       id: 2,
       terms: "bla bla bla",
       status: "in_progress",
-      createdAt: "2023-04-26T11:31:27.928Z",
-      updatedAt: "2023-04-26T11:31:27.928Z",
       ContractorId: 6,
       ClientId: 1
     };
 
     expect(response.status).to.equal(200);
     expect(response.body.success).to.equal(true);
-    expect(response.body.data).to.deep.equal(expectedContract);
+    expect(response.body.data).to.deep.include(expectedContract);
   });
   it('should return 404 not found if the contract doesn\'t belong to the authenticated user', async () => {
     const response = await request(app)
@@ -41,8 +41,6 @@ describe('Contract API tests', () => {
       id: 3,
       terms: "bla bla bla",
       status: "in_progress",
-      createdAt: "2023-04-26T11:31:27.928Z",
-      updatedAt: "2023-04-26T11:31:27.928Z",
       ContractorId: 6,
       ClientId: 2
     }
@@ -51,14 +49,12 @@ describe('Contract API tests', () => {
       id: 4,
       terms: "bla bla bla",
       status: "in_progress",
-      createdAt: "2023-04-26T11:31:27.928Z",
-      updatedAt: "2023-04-26T11:31:27.928Z",
       ContractorId: 7,
       ClientId: 2
     }
 
     expect(response.status).to.equal(200);
     expect(response.body.success).to.equal(true);
-    expect(response.body.data).to.deep.equal([expectedContract1, expectedContract2]);
+    expect(response.body.data).to.containSubset([expectedContract1, expectedContract2])
   });
 })

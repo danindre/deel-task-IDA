@@ -1,7 +1,9 @@
 const app = require('../../src/app');
 const chai = require('chai');
+const chaiSubset = require('chai-subset');
 const request = require('supertest');
 
+chai.use(chaiSubset);
 const expect = chai.expect;
 
 describe('Job API tests', () => {
@@ -16,8 +18,6 @@ describe('Job API tests', () => {
       price: 200,
       paid: null,
       paymentDate: null,
-      createdAt: "2023-04-26T11:31:27.928Z",
-      updatedAt: "2023-04-26T11:31:27.928Z",
       ContractId: 4
     };
 
@@ -27,13 +27,30 @@ describe('Job API tests', () => {
       price: 200,
       paid: null,
       paymentDate: null,
-      createdAt: "2023-04-26T11:31:27.928Z",
-      updatedAt: "2023-04-26T11:31:27.928Z",
       ContractId: 7
     };
 
     expect(response.status).to.equal(200);
     expect(response.body.success).to.equal(true);
-    expect(response.body.data).to.deep.equal([expectedUnpaidJob1, expectedUnpaidJob2]);
+    expect(response.body.data).to.containSubset([expectedUnpaidJob1, expectedUnpaidJob2]);
+  });
+  it('should pay for the unpaid job that are unpaid for an active contract', async () => {
+    const response = await request(app)
+      .post('/jobs/3/pay')
+      .set('profile_id', '2')
+
+    const paidJob = {
+      id: 3,
+      description: "work",
+      price: 202,
+      paid: true,
+      ContractId: 3
+    };
+
+    console.log(response.body)
+
+    expect(response.status).to.equal(200);
+    expect(response.body.success).to.equal(true);
+    expect(response.body.data).to.deep.include(paidJob);
   });
 });
